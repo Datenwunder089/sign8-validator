@@ -11,6 +11,7 @@
     // ========================================
 
     const API_URL = 'https://api.uat.sign8.eu/sva/v1/validation/document';
+    const CORS_PROXY = 'https://corsproxy.io/?url=';
     const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 
     // ========================================
@@ -149,8 +150,9 @@
             // Convert PDF to base64
             const base64 = await fileToBase64(selectedFile);
 
-            // Call API
-            const response = await fetch(API_URL, {
+            // Call API (use CORS proxy to avoid browser CORS restrictions)
+            const targetUrl = encodeURIComponent(API_URL);
+            const response = await fetch(CORS_PROXY + targetUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
